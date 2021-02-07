@@ -8,16 +8,11 @@ import sys
 import re
 
 def _upload():
-    _upload_widget = fileupload.FileUploadWidget()
-    def _cb(change):
-        global file_contents
-        decoded = io.StringIO(change['owner'].data.decode('utf-8'))
-        filename = change['owner'].filename
-        print('Uploaded `{}` ({:.2f} kB)'.format(
-            filename, len(decoded.read()) / 2 **10))
-        file_contents = decoded.getvalue()
-    _upload_widget.observe(_cb, names='data')
-    display(_upload_widget)
+    filename = "words.txt"
+    global file_contents
+    with open(filename) as f:
+        content = f.readlines()
+        file_contents = content
 
 _upload()
 
@@ -32,7 +27,7 @@ def calculate_frequencies(file_contents):
     
     # LEARNER CODE START HERE
     words = {}
-    for word in file_contents.split():
+    for word in file_contents:
         if word in uninteresting_words:
             pass
         else:
